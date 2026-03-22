@@ -1,0 +1,8 @@
+Task 2:
+2.1 We get less data so there are less chances to leak some data.
+2.2 minimium length in order to get extra data is 23.
+
+Task 3:
+3.1 update + upgrade does not work because it is a veeeery old system.
+3.2 The problem is that the code copies payload_length bytes into the response packet, without actually checking the length of the payload of the request packet. So a suggestion to fix this is to check that the length of the payload is the same as payload_length and then copy the request payload to the response payload. If they do not match, return error.
+
