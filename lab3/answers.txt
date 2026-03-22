@@ -1,0 +1,15 @@
+1. c. the client is : Apple_82:36:3a and the AP is CiscoLinksys_82:b2:55. Their MAC addresses are (apple: 00:0d:93:82:36:3a, cisco: 00:0c:41:82:b2:55)
+1. d. SSID = Coherer, Beacon Interval = 0.102400 [Seconds]
+1. e. Wikipedia: http://en.wikipedia.org/wiki/Landshark
+
+extra: client (apple) IP address: 192.168.0.50
+
+2. b. anonce: 3e8e967dacd960324cac5b6aa721235bf57b949771c867989f49d04ed47c6933
+      snonce: cdf405ceb9d889ef3dec42609828fae546b7add7baecbb1a394eac5214b1d386
+2. c. GTK encrypted: cfa72cde35b2c1e2319255806ab364179fd9673041b9a5939fa1a2010d2ac794e25168055f794ddc1fdfae3521f4446bfd11da98345f543df6ce199df8fe48f8cdd17adca87bf45711183c496d41aa0c
+2. d. msg 2,3,4
+2. e. The third message contains the GTK in the encrypted form. The last message is the only one that is fully encrypted and it is basically an acknowledge of the client that it installed the GTK and PTK. It is the only one encrypted because before this, the client didn't have enough information.
+2. f. KCK: b1cd792716762903f723424cd7d16511
+      KEK: b1cd792716762903f723424cd7d16511
+The KCK is used for integrity of the handshake messages: present in msg 2,3,4.
+The KEK is used for encrypting the GTK in message 3.
