@@ -1,0 +1,14 @@
+# deny all
+iptables -P FORWARD DROP
+
+# inside <-> outside Allow all packets belonging to already-established/related connections
+iptables -A FORWARD -p tcp -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# allow outside -> internal TCP SYN packets port 23
+iptables -A FORWARD -i eth0 -o eth1 -p tcp -d 192.168.60.5 --dport 23 \
+         --syn -m conntrack --ctstate NEW -j ACCEPT
+
+# allow internal -> outside TCP SYN packets
+# This rule with the 1st rule combined means inside -> outside TCP all packets
+iptables -A FORWARD -i eth1 -o eth0 -p tcp \
+         --syn -m conntrack --ctstate NEW -j ACCEPT

@@ -1,0 +1,3 @@
+1st rule: Accept packets from 10.9.0.5 with a limit of 10/minut and limit burst 5.
+Packets that are not caught by this rule are allowed by default (no default deny policy)
+2nd rule: Default deny packets from 10.9.0.5

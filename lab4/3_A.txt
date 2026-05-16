@@ -1,0 +1,8 @@
+Q: How long is the ICMP connection state be kept?
+A: 30s
+
+Q: How long is the UDP connection state be kept?
+A: 30s
+
+Q: How long is the TCP connection state be kept?
+A: 43200

@@ -1,0 +1,12 @@
+-A <chain> - append a rule to the chain
+-p <proto> - match protocol
+--icmp-type - match specific ICMP type
+-j <target> - jump to target action (ACCEPT/DROP)
+-P <chain> <target> - set default policy for a chain
+
+INPUT ... ICMP echo-request ACCEPT - allow incoming pings to this host
+OUTPUT ... ICMP echo-reply ACCEPT - allow this host to send ping replies
+OUTPUT DROP  - drop all outgoing traffic not matched by an ACCEPT rule
+INPUT DROP  - drop all incoming traffic not matched by an ACCEPT rule
+
+Note: since -t was not specified, the default table "FILTER" was used.

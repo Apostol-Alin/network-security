@@ -1,0 +1,28 @@
+root@10849f3ea76b:/# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+28: eth1@if29: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:c0:a8:3c:0b brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 192.168.60.11/24 brd 192.168.60.255 scope global eth1
+       valid_lft forever preferred_lft forever
+30: eth0@if31: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:0a:09:00:0b brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.9.0.11/24 brd 10.9.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+
+
+# eth0 ----- OUTSIDE
+# eth1 ----- INTERNAL
+
+# drop ping from outside to internal
+root@10849f3ea76b:/# iptables -A FORWARD -i eth0 -o eth1 -p icmp --icmp-type echo-request -j DROP
+# allow outside to ping router
+root@10849f3ea76b:/# iptables -A INPUT  -i eth0 -p icmp --icmp-type echo-request -j ACCEPT
+root@10849f3ea76b:/# iptables -A OUTPUT -o eth0 -p icmp --icmp-type echo-reply   -j ACCEPT
+# allow ping from internal to outside
+root@10849f3ea76b:/# iptables -A FORWARD -i eth1 -o eth0 -p icmp --icmp-type echo-request -j ACCEPT
+root@10849f3ea76b:/# iptables -A FORWARD -i eth0 -o eth1 -p icmp --icmp-type echo-reply   -j ACCEPT
+# drop rest of packets of FORWARD chain
+root@10849f3ea76b:/# iptables -P FORWARD DROP

@@ -1,0 +1,13 @@
+# 1/3 of all packets -> Host1 (192.168.60.5)
+iptables -t nat -A PREROUTING -p udp --dport 8080 \
+  -m statistic --mode nth --every 3 --packet 0 \
+  -j DNAT --to-destination 192.168.60.5:8080
+
+# 1/2 of remaining packets -> Host2 (192.168.60.6)
+iptables -t nat -A PREROUTING -p udp --dport 8080 \
+  -m statistic --mode nth --every 2 --packet 0 \
+  -j DNAT --to-destination 192.168.60.6:8080
+
+# All remaining packets -> Host3 (192.168.60.7)
+iptables -t nat -A PREROUTING -p udp --dport 8080 \
+  -j DNAT --to-destination 192.168.60.7:8080
